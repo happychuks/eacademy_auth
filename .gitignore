@@ -1,0 +1,54 @@
+# Ignore Django-specific files
+*.log
+*.pot
+*.pyc
+__pycache__/
+*.sqlite3
+
+# Ignore virtual environment files
+venv/
+*.env
+
+# Ignore IDE-specific files
+.vscode/
+.pycharm/
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Ignore operating system-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore node_modules (if using npm or yarn)
+node_modules/
+
+# Ignore bower_components (if using bower)
+bower_components/
+
+# Ignore staticfiles directory (if using collectstatic)
+staticfiles/
+
+# Ignore media files directory (if using Django's built-in media handling)
+media/
+
+# Ignore migrations (if using Django's built-in migrations)
+*/migrations/*.pyc
+
+
+# Ignore specific Django files
+*/settings.pyc
+*/wsgi.pyo
+*/uwsgi.pyo
+__init__.pyc
+
+
+# Commented out lines are optional, uncomment if needed
+# *.csv
+# *.xlsx
+# *.pdf
+# *.docx
+
+# Virtual environment
+.venv/
