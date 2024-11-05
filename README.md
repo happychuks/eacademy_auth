@@ -90,7 +90,7 @@ E-Academy is an online platform for educational purposes. This repository contai
 
 2. **Access the application**:
 
-    Open your web browser and navigate to http://localhost:8000.
+    Open your web browser and navigate to `http://127.0.0.1:8000/`
 
 ## API Endpoints
 
@@ -120,4 +120,4 @@ E-Academy is an online platform for educational purposes. This repository contai
 
 - [Happy Felix Chukwuma](https://codewithfelix.vercel.app/)
 
-Happy Coding
+Happy Coding!!!
