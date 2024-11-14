@@ -31,7 +31,7 @@ SECRET_KEY = 'django-insecure-p3x0rh84+th0os78xf_4f4wa_ghfn_1&xz9^=w_h=efz44jqhs
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*', 'https://e-academy-one.vercel.app']
 
 
 # Application definition
@@ -74,6 +74,13 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "https://e-academy-one.vercel.app",
 ]
+
+CORS_ALLOWED_ORIGINS = [
+    "https://e-academy-one.vercel.app",
+]
+
+# If you're using credentials in your requests, also add:
+CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'eacademy_backend.urls'
 
