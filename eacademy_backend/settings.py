@@ -15,6 +15,7 @@ from decouple import config
 
 # Oauth config
 from .oauth import *
+import os
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -175,4 +176,4 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = 'E Academy'
 
-FRONTEND_URL='http://localhost:3000'
+FRONTEND_URL = os.getenv('FRONTEND_URL', 'http://localhost:3000')

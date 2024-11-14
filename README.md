@@ -41,10 +41,20 @@ E-Academy is an online platform for educational purposes. This repository contai
 
 2. **Create and activate a virtual environment**:
 
-   ```bash
-   python -m venv .venv
-   source .venv/bin/activate
-   ```
+- For Linux/MacOS,
+
+    ```bash    
+    python3 -m venv .venv
+    source .venv/bin/activate
+    ```
+
+- For Windows,
+
+    ```bash    
+    pip3 install virtualenv
+    virtualenv myenv
+    myenv\Scripts\activate
+    ```
 
 3. **Install the dependencies**:
 
@@ -63,9 +73,11 @@ E-Academy is an online platform for educational purposes. This repository contai
     Create a `.env` file in the root directory and add the following environment variables:
 
     ```txt
+    FRONTEND_URL=http://localhost:3000
+
     EMAIL_HOST = 'smtp.gmail.com'
     EMAIL_HOST_USER = 'example@gmail.com'
-    EMAIL_HOST_PASSWORD = '<password>'
+    EMAIL_HOST_PASSWORD = '<password>' 
 
     # Oauth 
     GOOGLE_CLIENT_ID=<CLIENT_ID>
@@ -74,13 +86,8 @@ E-Academy is an online platform for educational purposes. This repository contai
     TWITTER_API_SECRET_KEY =<API_SECRET_KEY>
     ```
 
+    - Learn how to create Google App password [here](https://knowledge.workspace.google.com/kb/how-to-create-app-passwords-000009237)
 
-2. **Update `settings.py`**:
-    Replace with your frontend URL.
-
-    ```python
-    FRONTEND_URL='http://localhost:3000'
-    ```
 
 ## Running the Project
 
@@ -99,9 +106,9 @@ E-Academy is an online platform for educational purposes. This repository contai
 - Token Refresh: POST /api/token/refresh/
 - User Profile: GET /api/user/
 - Password Reset Request: POST /api/forgot-password/
-- Password Reset: POST /api/reset-password/
-- Google OAuth Login: GET /accounts/google/login/
-- Twitter OAuth Login: GET /accounts/twitter/login/
+- Password Reset: POST /api/reset-password/<uidb64>/<token>/
+- Google OAuth Login: GET /accounts/google/login/ `(!TODO)`
+- Twitter OAuth Login: GET /accounts/twitter/login/ `(!TODO)`
 
 ## OAuth Setup
 

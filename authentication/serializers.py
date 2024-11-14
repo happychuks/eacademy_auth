@@ -6,7 +6,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.utils.encoding import force_bytes
+from django.utils.encoding import force_bytes, force_str
 from django.template.loader import render_to_string
 from django.conf import settings
 
@@ -83,7 +83,7 @@ class PasswordResetRequestSerializer(serializers.Serializer):
         user = User.objects.get(email=email)
         token = default_token_generator.make_token(user)
         uid = urlsafe_base64_encode(force_bytes(user.pk))
-        reset_url = f"{settings.FRONTEND_URL}/reset-password?uid={uid}&token={token}/"
+        reset_url = f"{settings.FRONTEND_URL}/reset-password?uid={uid}&token={token}"
 
         context = {
             'user': user,
@@ -95,37 +95,26 @@ class PasswordResetRequestSerializer(serializers.Serializer):
         send_mail(subject, message=message, html_message=message, from_email=None, recipient_list=[user.email])
 
 class ResetPasswordSerializer(serializers.Serializer):
-    """
-    Serializer for password reset
-    """
-    uid = serializers.CharField()
-    token = serializers.CharField()
-    password = serializers.CharField(write_only=True)
+    password = serializers.CharField(write_only=True, validators=[validate_password])
     password2 = serializers.CharField(write_only=True)
 
-    def validate(self, attrs):
-        try:
-            uid = urlsafe_base64_decode(attrs['uid']).decode()
-            user = User.objects.get(pk=uid)
-        except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-            raise serializers.ValidationError('Invalid user')
-
-        if not default_token_generator.check_token(user, attrs['token']):
-            raise serializers.ValidationError('Invalid token')
-        
-        if attrs['password'] != attrs['password2']:
-            raise serializers.ValidationError("Password fields didn't match.")
-
-        # Validate password
-        try:
-            validate_password(attrs['password'])
-        except ValidationError as e:
-            raise serializers.ValidationError({"password": list(e.messages)})
-
-        return attrs
+    def validate(self, data):
+        if data['password'] != data['password2']:
+            raise serializers.ValidationError("Passwords do not match.")
+        return data
 
     def save(self):
-        uid = self.validated_data['uid']
-        user = User.objects.get(pk=urlsafe_base64_decode(uid).decode())
+        uidb64 = self.context['uidb64']
+        token = self.context['token']
+
+        try:
+            uid = force_str(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(pk=uid)
+        except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+            raise serializers.ValidationError({"message": "Invalid link"})
+
+        if not default_token_generator.check_token(user, token):
+            raise serializers.ValidationError({"message": "Invalid or expired token"})
+
         user.set_password(self.validated_data['password'])
         user.save()
